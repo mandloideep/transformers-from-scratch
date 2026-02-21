@@ -16,6 +16,10 @@ that motivates the next one. If you skip Phase 2 (sequence models), you will not
 understand why attention was invented. If you skip Phase 4 (attention), the
 transformer paper will feel arbitrary instead of brilliant.
 
+Each phase's learning happens in **interactive Jupyter notebooks** -- self-contained
+documents that combine explanations, hand-worked math, code implementations,
+tweakable plots, and space for your own notes. The notebooks ARE the deliverable.
+
 ---
 
 ## Phase 0: Mathematical Foundations
@@ -90,38 +94,39 @@ operations mean and be able to implement them.
 
 ### Actionable Items
 
-- [ ] **Implement vector and matrix operations from scratch in pure Python** (no NumPy)
-  - Dot product of two lists
-  - Matrix-vector multiplication
-  - Matrix-matrix multiplication
-  - Transpose
-  - Verify results against NumPy
+- [ ] **Notebook: Linear Algebra** (`01_linear_algebra.ipynb`)
+  - Implement dot product, mat-vec, mat-mat multiply, transpose, vector norm from scratch
+  - Hand-work a 3x2 matrix times a 2x1 vector on paper, verify in code
+  - Explore: tweak vectors and see how dot product relates to angle
+  - Explore: visualize how different 2x2 matrices transform a grid of points
+  - Compare pure Python speed vs NumPy on large matrices
 
-- [ ] **Implement the same operations using NumPy** and compare speed
+- [ ] **Notebook: Calculus** (`02_calculus.ipynb`)
+  - Implement numerical derivatives (central difference) and gradients
+  - Hand-work the derivative of x^2 at x=3, verify numerically
+  - Implement and demonstrate the chain rule (= backpropagation)
+  - Explore: adjust learning rate and watch gradient descent on a contour plot
+  - Explore: change epsilon and see how it affects derivative accuracy
 
-- [ ] **Implement derivatives numerically**
-  - Write a function `numerical_gradient(f, x, epsilon=1e-7)` that computes
-    df/dx using (f(x+epsilon) - f(x-epsilon)) / (2*epsilon)
-  - Test it on simple functions: f(x) = x^2, f(x) = sin(x)
-  - Implement the chain rule: compute d/dx of sin(x^2) both analytically and
-    numerically, verify they match
+- [ ] **Notebook: Softmax** (`03_softmax.ipynb`)
+  - Implement naive and numerically stable softmax
+  - Implement softmax with temperature
+  - Hand-work softmax([2.0, 1.0, 0.1]) step by step
+  - Explore: tweak temperature from 0.1 to 10.0, see distribution shape change
+  - Show why naive softmax breaks on large inputs
 
-- [ ] **Implement softmax from scratch**
-  - Naive version
-  - Numerically stable version (subtract max before exponentiating)
-  - Verify: outputs are positive and sum to 1
-  - Plot softmax for different "temperatures" (divide inputs by T before softmax)
+- [ ] **Notebook: Loss Functions** (`04_loss_functions.ipynb`)
+  - Implement cross-entropy loss (single, batch, full distribution)
+  - Hand-work -log(0.7) and -log(0.01) to see the asymmetry
+  - Explore: slide predicted probability from 0 to 1, watch loss curve
+  - Explore: compare loss for good vs bad vs perfect predictions
 
-- [ ] **Implement cross-entropy loss from scratch**
-  - For a single example
-  - For a batch
-  - Plot how loss changes as predicted probability of the correct class varies
-    from 0 to 1
-
-- [ ] **Implement entropy and KL divergence**
-  - Compute entropy of various distributions
-  - Show that KL divergence is zero when two distributions are identical
-  - Show that KL divergence is not symmetric
+- [ ] **Notebook: Information Theory** (`05_information_theory.ipynb`)
+  - Implement entropy, KL divergence, perplexity
+  - Hand-work entropy of a fair coin vs loaded coin
+  - Explore: tweak a distribution and watch entropy change
+  - Explore: see KL divergence asymmetry with two distributions
+  - Connect it all: logits -> softmax -> cross-entropy -> perplexity
 
 ### Blog Post
 "The Math You Actually Need for Deep Learning (And Nothing More)" -- Cover the
@@ -212,41 +217,42 @@ network from scratch using only NumPy.
 
 ### Actionable Items
 
-- [ ] **Build a Perceptron from scratch**
-  - Implement the perceptron learning algorithm
-  - Train it on AND, OR gates
-  - Show it fails on XOR
-  - Visualize the decision boundary
+- [ ] **Notebook: The Perceptron** (`01_perceptron.ipynb`)
+  - Implement the perceptron learning algorithm from scratch
+  - Hand-work a single perceptron update step with concrete weights
+  - Train on AND, OR gates; show it fails on XOR
+  - Explore: visualize the decision boundary moving during training
+  - Explore: tweak learning rate, see how convergence changes
 
-- [ ] **Build a 2-layer MLP from scratch**
-  - Forward pass with sigmoid activation
-  - Compute cross-entropy loss
-  - Implement backpropagation BY HAND (derive all the gradients on paper first)
+- [ ] **Notebook: Multi-Layer Perceptrons** (`02_mlp.ipynb`)
+  - Build a 2-layer MLP with sigmoid activation from scratch
+  - Hand-work one full forward + backward pass with concrete numbers
+  - Derive all gradients on paper first, then implement backpropagation
   - Train on XOR -- show it now works
-  - Print weights at each epoch; watch them change
+  - Explore: watch weights evolve during training
 
-- [ ] **Implement all activation functions and their derivatives**
-  - sigmoid, tanh, ReLU, GELU
-  - Plot each one and its derivative
-  - Verify derivatives numerically using the gradient checker from Phase 0
+- [ ] **Notebook: Activation Functions** (`03_activations.ipynb`)
+  - Implement sigmoid, tanh, ReLU, GELU and their derivatives
+  - Hand-work sigmoid(2.0) and its derivative
+  - Explore: plot each activation and derivative side by side
+  - Verify derivatives numerically using gradient checker from Phase 0
 
-- [ ] **Build a configurable MLP class**
-  - Arbitrary number of layers and neurons per layer
-  - Choice of activation function
-  - Forward and backward pass
+- [ ] **Notebook: MLP on MNIST** (`04_mnist_mlp.ipynb`)
+  - Build a configurable MLP class (arbitrary layers, choice of activation)
+  - Full forward and backward pass
   - Train on MNIST (load with simple Python, no sklearn)
-  - Achieve >90% accuracy on MNIST with a 2-hidden-layer MLP
+  - Explore: vary hidden layer sizes, number of layers, activations
+  - Target: >90% accuracy on MNIST
 
-- [ ] **Implement and compare optimizers**
-  - Plain SGD
-  - SGD with momentum
-  - Adam
-  - Plot loss curves for each on the same problem
-  - Observe how Adam converges faster
+- [ ] **Notebook: Optimizers** (`05_optimizers.ipynb`)
+  - Implement plain SGD, SGD with momentum, Adam from scratch
+  - Hand-work one Adam update step with concrete values
+  - Explore: plot loss curves for all three on the same problem
+  - Explore: tweak learning rate, momentum, beta values
 
-- [ ] **Gradient checking**
-  - For every backprop implementation, verify against numerical gradients
-  - This catches bugs that would otherwise be invisible
+- [ ] **Notebook: Gradient Checking** (`06_gradient_checking.ipynb`)
+  - Verify every backprop implementation against numerical gradients
+  - Show what happens when backprop has a bug (deliberate error, catch with checker)
 
 ### Blog Post
 "Neural Networks from Scratch: From a Single Neuron to Recognizing Digits" --
@@ -347,34 +353,36 @@ motivate everything that follows.
 
 ### Actionable Items
 
-- [ ] **Build a vanilla RNN from scratch in NumPy**
-  - Forward pass: implement the recurrence h_t = tanh(W_hh * h_{t-1} + W_xh * x_t)
-  - Backward pass: implement BPTT (backpropagation through time)
-  - Train on a character-level language model (predict next character)
-  - Start with a tiny text (first few paragraphs of a book)
-  - Sample text from the trained model
+- [ ] **Notebook: Vanilla RNN** (`01_rnn.ipynb`)
+  - Implement forward pass: h_t = tanh(W_hh * h_{t-1} + W_xh * x_t)
+  - Implement BPTT (backpropagation through time)
+  - Hand-work one forward step with concrete matrices
+  - Train on character-level language model (tiny text)
+  - Explore: sample text from trained model at different temperatures
 
-- [ ] **Demonstrate the vanishing gradient problem**
-  - Train the RNN on sequences of increasing length
+- [ ] **Notebook: Vanishing Gradients** (`02_vanishing_gradients.ipynb`)
+  - Train RNN on sequences of increasing length
   - Plot gradient magnitudes at each time step
-  - Show that gradients for early time steps become negligibly small
+  - Explore: tweak sequence length, see when gradients vanish
+  - Visualize: gradient heatmap across time steps
 
-- [ ] **Build an LSTM from scratch in NumPy**
-  - Implement all four equations (forget gate, input gate, cell update, output gate)
+- [ ] **Notebook: LSTM** (`03_lstm.ipynb`)
+  - Implement all four gate equations from scratch
+  - Hand-work one LSTM step with concrete values for all gates
   - Implement BPTT through the LSTM
-  - Train on the same character-level task
-  - Show it handles longer sequences better than vanilla RNN
-  - Plot gradient flow and compare to vanilla RNN
+  - Train on same character-level task, compare to vanilla RNN
+  - Explore: plot gradient flow and compare to vanilla RNN
 
-- [ ] **Build a GRU from scratch in NumPy**
-  - Implement the two-gate architecture
-  - Compare performance, training speed, and parameter count vs LSTM
+- [ ] **Notebook: GRU** (`04_gru.ipynb`)
+  - Implement the two-gate architecture from scratch
+  - Hand-work one GRU step
+  - Explore: compare performance, speed, and parameter count vs LSTM
 
-- [ ] **Build a Seq2Seq model**
+- [ ] **Notebook: Seq2Seq** (`05_seq2seq.ipynb`)
   - Encoder LSTM reads input, produces context vector
   - Decoder LSTM generates output from context vector
-  - Train on a simple task: reversing a sequence of digits
-  - Observe the bottleneck: performance degrades for longer sequences
+  - Train on reversing digit sequences
+  - Explore: increase sequence length, observe performance degradation (the bottleneck)
 
 ### Blog Post
 "Why Transformers Exist: The Journey Through RNNs and LSTMs" -- Tell the story
@@ -445,36 +453,31 @@ Build tokenizers and embedding layers from scratch.
 
 ### Actionable Items
 
-- [ ] **Build a character-level tokenizer**
-  - encode() and decode() functions
-  - Build vocabulary from a text corpus
+- [ ] **Notebook: Tokenization** (`01_tokenization.ipynb`)
+  - Build character-level tokenizer with encode()/decode()
+  - Build word-level tokenizer with vocabulary, frequency thresholds, <UNK>
+  - Implement BPE from scratch (count pairs, merge, repeat)
+  - Hand-work 3 BPE merge steps on a small text
+  - Explore: compare vocab size and sequence length across all three methods
 
-- [ ] **Build a word-level tokenizer**
-  - Splitting, lowercasing, handling punctuation
-  - Build vocabulary with frequency thresholds
-  - Handle unknown words (<UNK> token)
-
-- [ ] **Implement Byte Pair Encoding (BPE) from scratch**
-  - Start with character-level tokens
-  - Count pair frequencies, merge the most frequent pair, repeat
-  - Implement encode() and decode()
-  - Compare vocabulary size and sequence lengths across all three methods
-
-- [ ] **Implement an embedding layer from scratch**
-  - Initialize random embedding matrix
-  - Look up embeddings by index
-  - Show that one-hot times embedding matrix equals index lookup
+- [ ] **Notebook: Embeddings** (`02_embeddings.ipynb`)
+  - Implement one-hot encoding
+  - Implement embedding layer (random init, index lookup)
+  - Hand-work: show one-hot times embedding matrix = index lookup
   - Implement gradient computation for the embedding matrix
+  - Explore: visualize random embeddings in 2D
 
-- [ ] **Implement Word2Vec (Skip-gram with negative sampling)**
+- [ ] **Notebook: Word2Vec** (`03_word2vec.ipynb`)
+  - Implement skip-gram with negative sampling from scratch
   - Train on a small text corpus
-  - Visualize embeddings using PCA or t-SNE
-  - Test word analogies
+  - Visualize embeddings using PCA
+  - Explore: test word analogies, tweak embedding dimension
 
-- [ ] **Implement sinusoidal positional encodings**
-  - Generate the full positional encoding matrix
+- [ ] **Notebook: Positional Encodings** (`04_positional_encodings.ipynb`)
+  - Implement sinusoidal positional encodings
+  - Hand-work PE for positions 0-4, dimension 8
   - Visualize as a heatmap
-  - Show that dot product between position vectors encodes relative distance
+  - Explore: show dot product between position vectors encodes relative distance
 
 ### Blog Post
 "From Words to Vectors: How Machines Read Text" -- Cover the progression from
@@ -543,34 +546,30 @@ Build every variant from scratch, culminating in multi-head self-attention.
 
 ### Actionable Items
 
-- [ ] **Build Bahdanau attention from scratch**
-  - Implement the additive alignment function
+- [ ] **Notebook: Bahdanau Attention** (`01_bahdanau_attention.ipynb`)
+  - Implement additive alignment function from scratch
+  - Hand-work alignment scores for a 3-position sequence
   - Integrate with Seq2Seq from Phase 2
-  - Visualize attention weights as a heatmap
-  - Compare performance with and without attention on longer sequences
+  - Explore: visualize attention weights as a heatmap
+  - Explore: compare performance with and without attention on longer sequences
 
-- [ ] **Build Luong attention from scratch**
+- [ ] **Notebook: Luong Attention** (`02_luong_attention.ipynb`)
   - Implement dot, general, and concat variants
-  - Compare against Bahdanau
+  - Hand-work one attention step with concrete Q, K matrices
+  - Explore: compare all three variants, benchmark against Bahdanau
 
-- [ ] **Build scaled dot-product attention from scratch**
-  - Implement Q, K, V formulation
-  - Demonstrate the effect of scaling
+- [ ] **Notebook: Scaled Dot-Product Attention** (`03_scaled_dot_product.ipynb`)
+  - Implement Q, K, V formulation from scratch
+  - Hand-work attention for a 4-token sequence with d_k=3
+  - Explore: tweak d_k, see effect of scaling on softmax sharpness
   - Verify shapes at every step
 
-- [ ] **Build self-attention from scratch**
+- [ ] **Notebook: Self-Attention & Multi-Head** (`04_multi_head_attention.ipynb`)
   - Compute Q, K, V by projecting input with learned weight matrices
-  - Apply scaled dot-product attention
-  - Visualize which positions attend to which
-
-- [ ] **Build multi-head attention from scratch**
-  - Multiple parallel heads with separate projections
-  - Concatenate and project
-  - Visualize different heads learning different patterns
-
-- [ ] **Attention masking**
-  - Implement padding mask
-  - Implement causal mask (each position only attends to earlier positions)
+  - Implement multi-head attention (parallel heads, concat, project)
+  - Hand-work one head of attention on a 3-token sentence
+  - Explore: visualize different heads learning different patterns
+  - Implement padding mask and causal mask
 
 ### Blog Post
 "Attention: The Mechanism That Changed Everything" -- Start with the Seq2Seq
@@ -643,34 +642,29 @@ Every component has been built in previous phases; now they come together.
 
 ### Actionable Items
 
-- [ ] **Implement layer normalization from scratch**
-  - Forward: normalize, scale, shift
-  - Backward: gradients for scale, shift, and input
-  - Verify against known values
+- [ ] **Notebook: Layer Norm & Residuals** (`01_layer_norm_residuals.ipynb`)
+  - Implement layer normalization (forward and backward) from scratch
+  - Implement residual connections
+  - Hand-work layer norm on a concrete vector
+  - Explore: remove layer norm, observe instability
+  - Explore: remove residual connections, observe instability
 
-- [ ] **Assemble the transformer encoder block**
-  - Multi-head self-attention + Add & Norm + FFN + Add & Norm
-  - Stack N blocks
+- [ ] **Notebook: Transformer Encoder** (`02_transformer_encoder.ipynb`)
+  - Assemble: multi-head self-attention + Add & Norm + FFN + Add & Norm
+  - Stack N encoder blocks
+  - Hand-work data flow through one encoder block
+  - Explore: vary number of heads, FFN dimension, number of layers
 
-- [ ] **Assemble the transformer decoder block**
-  - Masked self-attention + Add & Norm + Cross-attention + Add & Norm + FFN + Add & Norm
-  - Stack N blocks
+- [ ] **Notebook: Transformer Decoder** (`03_transformer_decoder.ipynb`)
+  - Assemble: masked self-attention + Add & Norm + cross-attention + Add & Norm + FFN + Add & Norm
+  - Stack N decoder blocks
+  - Visualize causal mask
 
-- [ ] **Build the full encoder-decoder transformer**
+- [ ] **Notebook: Full Transformer** (`04_full_transformer.ipynb`)
   - Embedding + positional encoding -> encoder -> decoder -> linear -> softmax
   - Run on a tiny sequence, verify shapes at every layer
-
-- [ ] **Train on a toy translation task**
-  - Reverse sequences, copy sequences, or digit-to-word translation
-  - Full training loop with teacher forcing
-  - Autoregressive decoding at inference time
-  - This will be SLOW in NumPy. The point is understanding, not speed.
-
-- [ ] **Ablation study**
-  - Remove residual connections: observe instability
-  - Remove layer norm: observe instability
-  - Change number of heads: observe performance change
-  - Change FFN dimension: observe performance change
+  - Train on a toy task (reverse/copy sequences)
+  - Explore: ablation study -- remove components one at a time
 
 ### Blog Post
 "Building a Transformer from Scratch in NumPy" -- Walk through the full
@@ -707,20 +701,20 @@ Show training curves and outputs from the toy task.
 
 ### Actionable Items
 
-- [ ] **PyTorch basics**
+- [ ] **Notebook: PyTorch Basics** (`01_pytorch_basics.ipynb`)
   - Create tensors, move to MPS
-  - Use autograd, compare to hand-written backprop
+  - Use autograd, compare to hand-written backprop from Phase 1
+  - Hand-work: show autograd computing the same gradient as your numerical method
 
-- [ ] **Rebuild each component in PyTorch**
-  - Embedding, positional encoding, attention, FFN, LayerNorm, full transformer
+- [ ] **Notebook: Rebuild in PyTorch** (`02_pytorch_transformer.ipynb`)
+  - Rebuild each component: embedding, positional encoding, attention, FFN, LayerNorm, full transformer
   - Verify each against NumPy version (same input -> compare outputs)
+  - Explore: benchmark MPS vs CPU throughput
 
-- [ ] **Training infrastructure**
+- [ ] **Notebook: Training Infrastructure** (`03_training_infrastructure.ipynb`)
   - Training loop, DataLoader, LR scheduling (warmup + cosine decay)
   - Gradient clipping, loss logging
-
-- [ ] **Benchmark MPS vs CPU**
-  - Time per batch, throughput comparison
+  - Explore: visualize learning rate schedules
 
 ### Blog Post
 "From NumPy to PyTorch: What You Gain When a Framework Does the Math For You"
@@ -780,25 +774,25 @@ model in PyTorch.
 
 ### Actionable Items
 
-- [ ] **Implement GPT model in PyTorch**
+- [ ] **Notebook: GPT Model** (`01_gpt_model.ipynb`)
+  - Implement GPT in PyTorch: causal self-attention, pre-norm, GELU, learned positional embeddings, weight tying
   - Start small: 4 layers, 4 heads, 128 dim (~1M params)
-  - Causal self-attention, pre-norm, GELU, learned positional embeddings
-  - Weight tying
+  - Hand-work data flow through one GPT block
 
-- [ ] **Train on Shakespeare**
+- [ ] **Notebook: Training on Shakespeare** (`02_gpt_shakespeare.ipynb`)
+  - Train on Shakespeare corpus
   - Monitor loss, generate samples every N steps
-  - Watch progression from gibberish to coherent text
+  - Explore: watch progression from gibberish to coherent text
+  - Explore: scale from 1M -> 10M -> 50M params, compare quality
 
-- [ ] **Scale progressively**: 1M -> 10M -> 50M params
-  - Observe training speed, loss curves, generation quality at each scale
+- [ ] **Notebook: Text Generation** (`03_text_generation.ipynb`)
+  - Implement greedy, temperature sampling, top-k, top-p (nucleus)
+  - Explore: compare outputs at different temperatures, k, p values
+  - Explore: same prompt with different strategies side by side
 
-- [ ] **Implement text generation**
-  - Greedy, temperature sampling, top-k, top-p (nucleus)
-  - Compare: greedy is repetitive, high temp is chaotic, top-p is balanced
-
-- [ ] **Compare to nanoGPT**
-  - Read Karpathy's nanoGPT (https://github.com/karpathy/nanoGPT)
-  - Compare architecture choices, identify differences
+- [ ] **Notebook: Compare to nanoGPT** (`04_nanogpt_comparison.ipynb`)
+  - Read Karpathy's nanoGPT, compare architecture choices
+  - Identify and explain differences
 
 ### Blog Post
 "GPT Demystified: How Decoder-Only Transformers Generate Text" -- Walk through
@@ -852,35 +846,24 @@ This is the main deliverable.
 
 ### Actionable Items
 
-- [ ] **Prepare training data**
+- [ ] **Notebook: Data Preparation** (`01_data_preparation.ipynb`)
   - Download OpenWebText or FineWeb-Edu subset (~10GB)
-  - Tokenize with tiktoken or your BPE
+  - Tokenize with tiktoken or your BPE from Phase 3
   - Store as memory-mapped binary files
+  - Explore: inspect token distributions, sequence length stats
 
-- [ ] **Finalize model**
-  - Scale to 124M params
+- [ ] **Notebook: Full Training** (`02_full_training.ipynb`)
+  - Scale model to 124M params (12 layers, 12 heads, d_model=768)
   - Weight init (normal std=0.02, residual scaling 1/sqrt(n_layers))
-  - Dropout (0.1 train, 0 eval)
+  - Full training loop: gradient accumulation, LR warmup + cosine decay, clipping, checkpointing
+  - Start small (100M tokens, ~1 hour) to verify, then scale to 2-10B tokens
+  - Explore: monitor loss, perplexity, gradient norms over time
 
-- [ ] **Full training loop**
-  - Gradient accumulation, LR warmup + cosine decay
-  - Gradient clipping, periodic eval, checkpointing, resume capability
-
-- [ ] **Train the model**
-  - Start small (100M tokens, ~1 hour) to verify
-  - Scale to 2-10B tokens
-  - Monitor loss, perplexity, gradient norms
-  - Generate samples at regular intervals
-
-- [ ] **Evaluate and generate**
+- [ ] **Notebook: Evaluation** (`03_evaluation.ipynb`)
   - Perplexity on held-out test set
   - Generate with different prompts and sampling strategies
-  - Honestly assess: 124M on 2B tokens = coherent but not brilliant
-
-- [ ] **Ablation experiments**
-  - Context lengths (256, 512, 1024)
-  - Learning rates, warmup vs no warmup
-  - Different data amounts
+  - Explore: ablations -- context lengths, learning rates, data amounts
+  - Honest assessment: what can 124M on 2B tokens actually do?
 
 ### Blog Post
 "Training GPT-2 Small on a MacBook: A Practical Guide" -- Full process: data
@@ -966,12 +949,25 @@ LLMs better than vanilla transformers.
 
 ### Actionable Items
 
-- [ ] **Implement RoPE**: Replace learned positional embeddings, test on different lengths
-- [ ] **Implement KV-Cache**: Benchmark generation speed with and without
-- [ ] **Implement RMSNorm**: Drop-in LayerNorm replacement
-- [ ] **Implement SwiGLU activation**: Replace GELU in FFN
-- [ ] **Read and annotate papers**: 1-page summary for each (problem, solution, results)
-- [ ] **Optional: Implement simplified DPO pipeline**
+- [ ] **Notebook: RoPE** (`01_rope.ipynb`)
+  - Implement rotary position embeddings from scratch
+  - Hand-work rotation for position 0 and position 1
+  - Replace learned positional embeddings, test on different lengths
+  - Explore: visualize rotation patterns
+
+- [ ] **Notebook: KV-Cache & Inference** (`02_kv_cache.ipynb`)
+  - Implement KV-cache for efficient generation
+  - Benchmark generation speed with and without cache
+  - Implement RMSNorm (drop-in LayerNorm replacement)
+  - Implement SwiGLU activation (replace GELU in FFN)
+
+- [ ] **Notebook: Paper Annotations** (`03_paper_annotations.ipynb`)
+  - 1-page summary for each key paper: problem, solution, results
+  - Explore: compare architectures side by side (GPT-2 vs LLaMA vs Mistral)
+
+- [ ] **Notebook: DPO (Optional)** (`04_dpo.ipynb`)
+  - Implement simplified DPO pipeline
+  - Explore: compare to RLHF conceptually
 
 ### Blog Post
 "From GPT-2 to LLaMA: What Changed and Why" -- Survey key innovations. Explain

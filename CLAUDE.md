@@ -111,10 +111,23 @@ phase-XX-name/
 - No external ML libraries until Phase 6 (no sklearn, no PyTorch, no TensorFlow)
 - matplotlib and seaborn are always allowed for visualization
 
-### Notebook vs Script Convention
-- Use `.py` scripts for reusable implementations (the "from scratch" builds)
-- Use Jupyter notebooks (`.ipynb`) for exploration, visualization, and experimentation
-- The script is the "source of truth"; the notebook imports from it and explores
+### Notebook Convention
+- Jupyter notebooks (`.ipynb`) are the **single source of truth** for each topic
+- They contain implementations, explanations, hand-worked examples, plots, and notes -- all in one place
+- Each notebook follows a consistent structure:
+  1. **Motivation** (markdown): Why this topic matters, connection to transformers
+  2. **Intuition** (markdown): Analogies and plain language, no math yet
+  3. **Math by hand** (markdown): Formal definition with every symbol defined, then a
+     fully worked example with concrete numbers showing every intermediate step
+  4. **Implementation** (code): The function implemented inline with detailed comments
+  5. **Verify** (code): Replicate the hand-worked example in code, confirm they match
+  6. **Explore** (code): Tweakable parameters marked with `# === TWEAK THESE ===`,
+     plots that respond to parameter changes. Multiple exploration cells per topic.
+  7. **Your notes** (markdown): Empty section for the learner's own observations
+  8. **Reflection** (markdown): Key takeaways, what comes next and why
+- Every notebook must be runnable top-to-bottom with "Restart & Run All"
+- Notebooks are numbered (`01_`, `02_`, ...) to enforce reading order
+- Plots should use clear titles, labeled axes, and annotations that explain what to look for
 
 ### Testing
 - Each implementation should include simple test cases
